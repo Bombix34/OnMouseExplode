@@ -36,7 +36,7 @@ public class TileRenderer : MonoBehaviour
         }
         if(IsShaking)
         {
-            Position = m_BasePosition + (Random.insideUnitSphere*m_Settings.ShakeSpeed);
+            Position = transform.parent.position + m_BasePosition + (Random.insideUnitSphere*m_Settings.ShakeSpeed);
         }
         if(IsGrowing)
         {
@@ -50,7 +50,7 @@ public class TileRenderer : MonoBehaviour
         Color = Color.white;
         Scale = m_BaseScale;
         m_GrowingAmount = 0f;
-        Position = m_BasePosition;
+        Position = transform.parent.position+m_BasePosition;
     }
 
     public void Squash(bool isSquashX)

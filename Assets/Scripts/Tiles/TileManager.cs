@@ -86,6 +86,8 @@ public class TileManager : MonoBehaviour
     {
         set
         {
+            m_Renderer.enabled = !value;
+            m_IsLock = value;
             if (value)
             {
                 m_Renderer.Color = Color.grey;
@@ -93,8 +95,6 @@ public class TileManager : MonoBehaviour
             }
             else
                 m_Renderer.ResetTile();
-            m_Renderer.enabled = !value;
-            m_IsLock = value;
         }
         get
         {

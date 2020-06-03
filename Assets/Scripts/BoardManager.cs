@@ -6,11 +6,14 @@ public class BoardManager : Singleton<BoardManager>
 {
     [SerializeField]
     private BoardSettings m_Settings;
-    private Board m_Board;
+    private TileSpawner m_Spawner;
+    private Board m_CurrentBoard;
+
 
     private void Awake()
     {
-        m_Board = new Board(m_Settings.COLUMN, m_Settings.RAW);
+        m_Spawner = GetComponent<TileSpawner>();
+        m_CurrentBoard = new Board(m_Settings.COLUMN, m_Settings.RAW);
     }
 
     private void Update()
@@ -20,16 +23,22 @@ public class BoardManager : Singleton<BoardManager>
 
     public void OnTileLocked()
     {
-        if(LockedTilesNumber()==20)
+        print(m_CurrentBoard.m_InitialTilesAlive);
+        if (LockedTilesNumber() == m_CurrentBoard.m_InitialTilesAlive/2)
         {
             for (int i = 0; i < m_Settings.COLUMN; ++i)
             {
                 for (int j = 0; j < m_Settings.RAW; ++j)
                 {
-                    if (m_Board.GetTile(i, j) !=null && !m_Board.GetTile(i, j).IsLock && !m_Board.GetTile(i, j).IsMouseOver )
-                        m_Board.GetTile(i, j).Face.SwitchFace(FaceType.angry);
+                    if (m_CurrentBoard.GetTile(i, j) != null && !m_CurrentBoard.GetTile(i, j).IsLock && !m_CurrentBoard.GetTile(i, j).IsMouseOver)
+                        m_CurrentBoard.GetTile(i, j).Face.SwitchFace(FaceType.angry);
                 }
             }
+        }
+        else if (LockedTilesNumber() == m_CurrentBoard.m_InitialTilesAlive)
+        {
+            m_CurrentBoard = new Board(m_Settings.COLUMN, m_Settings.RAW);
+            m_Spawner.MoveContainers(true);
         }
     }
 
@@ -40,12 +49,13 @@ public class BoardManager : Singleton<BoardManager>
         {
             for (int j = 0; j < m_Settings.RAW; ++j)
             {
-                if (m_Board.GetTile(i, j) != null &&m_Board.GetTile(i, j).IsLock)
+                if (m_CurrentBoard.GetTile(i, j) != null &&m_CurrentBoard.GetTile(i, j).IsLock)
                     ++count;
             }
         }
         return count;
     }
+
 
     #region GET/SET
 
@@ -53,7 +63,7 @@ public class BoardManager : Singleton<BoardManager>
     {
         get
         {
-            return m_Board;
+            return m_CurrentBoard;
         }
     }
 
@@ -63,6 +73,7 @@ public class BoardManager : Singleton<BoardManager>
 public class Board
 {
     private TileManager[,] m_Tiles;
+    public int m_InitialTilesAlive=0;
 
     public Board(int column, int raw)
     {
@@ -71,6 +82,8 @@ public class Board
 
     public void InitTile(TileManager newTile, int column, int raw)
     {
+        if (newTile != null)
+            m_InitialTilesAlive++;
         m_Tiles[column, raw] = newTile;
     }
 
