@@ -197,10 +197,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e458d7faeabd4e50bac04d3bb3a4e28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SpawnType: 0
   m_Settings: {fileID: 11400000, guid: b358e70dedf59487293d7ca79d1ca6d4, type: 2}
+  m_DataBase: {fileID: 11400000, guid: 66e53a767355c28479b7239d1034bb05, type: 2}
   m_Level1Container: {fileID: 240098111}
   m_Level2Container: {fileID: 1978999800}
-  m_TestLevel: {fileID: 11400000, guid: 06f7505121838482199784a16e8d880c, type: 2}
 --- !u!114 &829695856
 MonoBehaviour:
   m_ObjectHideFlags: 0

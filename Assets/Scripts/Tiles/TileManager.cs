@@ -25,7 +25,24 @@ public class TileManager : MonoBehaviour
         m_Renderer.Settings = m_Settings;
         m_FaceManager = GetComponent<FaceManager>();
     }
-    
+
+    private void Update()
+    {
+        if (IsMouseOver && Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            // Handle finger movements based on TouchPhase
+            switch (touch.phase)
+            {
+                case TouchPhase.Ended:
+                    // Report that the touch has ended when it ends
+                    m_OnMouseExit.Invoke();
+                    break;
+            }
+        }
+    }
+
 
     public void Init(Vector2 positionInGrid)
     {

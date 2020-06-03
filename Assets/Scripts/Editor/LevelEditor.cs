@@ -39,6 +39,7 @@ public class LevelEditor : Editor
             m.levelTile[0] == null ||
             m.levelTile[0].entries.Length == 0)
         {
+            Debug.Log("INIT LEVEL V1");
             //Create/init new array when there isn't one
             m.levelTile = new Level.Row[m.settings.RAW];
             for (int i = 0; i < m.levelTile.Length; i++)
@@ -49,6 +50,7 @@ public class LevelEditor : Editor
         }
         else if (m.levelTile.Length != m.settings.RAW)
         {
+            Debug.Log("INIT LEVEL V2");
             //resizing number of rows
             int oldRAW = m.levelTile.Length;
             bool growing = m.settings.RAW > m.levelTile.Length;
@@ -66,6 +68,7 @@ public class LevelEditor : Editor
         }
         else if (m.levelTile[0].entries.Length != m.settings.COLUMN)
         {
+            Debug.Log("INIT LEVEL V3");
             //resizing number of entries per row
             for (int i = 0; i < m.levelTile.Length; i++)
             {

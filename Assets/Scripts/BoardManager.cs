@@ -16,14 +16,9 @@ public class BoardManager : Singleton<BoardManager>
         m_CurrentBoard = new Board(m_Settings.COLUMN, m_Settings.RAW);
     }
 
-    private void Update()
-    {
-        
-    }
 
     public void OnTileLocked()
     {
-        print(m_CurrentBoard.m_InitialTilesAlive);
         if (LockedTilesNumber() == m_CurrentBoard.m_InitialTilesAlive/2)
         {
             for (int i = 0; i < m_Settings.COLUMN; ++i)

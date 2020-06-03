@@ -6,24 +6,27 @@ using DG.Tweening;
 public class TileSpawner : MonoBehaviour
 {
     [SerializeField]
+    private SpawnType m_SpawnType;
+    [SerializeField]
     private BoardSettings m_Settings;
+    [SerializeField]
+    private LevelDataBase m_DataBase;
     private BoardManager m_BoardManager;
 
     [SerializeField]
     private Transform m_Level1Container, m_Level2Container;
     private Transform m_CurrentLevelContainer;
 
-    public Level m_TestLevel;
-
     private void Awake()
     {
         m_BoardManager = GetComponent<BoardManager>();
+        m_DataBase.ResetLevelAvailable();
         m_CurrentLevelContainer = m_Level2Container;
     }
 
     private void Start()
     {
-        InitSpawnTest();
+        SpawnLevel();
     }
 
     private void ChangeCurrentLevelContainer()
@@ -34,7 +37,16 @@ public class TileSpawner : MonoBehaviour
             m_CurrentLevelContainer = m_Level1Container;
     }
 
-    public void InitSpawnTest()
+    public void SpawnLevel()
+    {
+        if (m_SpawnType == SpawnType.TEST_LEVEL)
+            SpawnLevel(m_DataBase.m_LevelToTest);
+        else if (m_SpawnType == SpawnType.RANDOM)
+            SpawnLevel(m_DataBase.RandomLevel);
+
+    }
+
+    public void SpawnLevel(Level newLevel)
     {
         ResetContainer();
         ChangeCurrentLevelContainer();
@@ -42,7 +54,7 @@ public class TileSpawner : MonoBehaviour
         {
             for(int j = 0; j < m_Settings.RAW; ++j)
             {
-                TileManager.TileType currentTyleType = m_TestLevel.levelTile[j].entries[i];
+                TileManager.TileType currentTyleType = newLevel.levelTile[j].entries[i];
                 if (currentTyleType != TileManager.TileType.empty)
                 {
                     GameObject tileSpawned = Instantiate(m_Settings.TILE_PREFAB, m_CurrentLevelContainer) as GameObject;
@@ -54,11 +66,6 @@ public class TileSpawner : MonoBehaviour
                 }
                 else
                     m_BoardManager.Board.InitTile(null, i, j);
-
-                switch (currentTyleType)
-                {
-
-                }
             }
         }
         MoveContainers(false);
@@ -72,7 +79,7 @@ public class TileSpawner : MonoBehaviour
                 m_Level2Container.transform.position = new Vector2(0f, 0f);
             else
                 m_Level1Container.transform.position = new Vector2(0f, 0f);
-            m_CurrentLevelContainer.DOMoveX(0f, 0.5f).OnComplete(() => InitSpawnTest());
+            m_CurrentLevelContainer.DOMoveX(0f, 0.5f).OnComplete(() => SpawnLevel());
         }
         else
         {
@@ -87,4 +94,10 @@ public class TileSpawner : MonoBehaviour
             Destroy(m_CurrentLevelContainer.GetChild(i).gameObject);
         }
     }
+}
+
+public enum SpawnType
+{
+    TEST_LEVEL,
+    RANDOM
 }
