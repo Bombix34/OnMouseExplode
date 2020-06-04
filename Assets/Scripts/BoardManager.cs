@@ -9,11 +9,17 @@ public class BoardManager : Singleton<BoardManager>
     private TileSpawner m_Spawner;
     private Board m_CurrentBoard;
 
-
     private void Awake()
     {
         m_Spawner = GetComponent<TileSpawner>();
+        m_Spawner.InitSpawner();
         m_CurrentBoard = new Board(m_Settings.COLUMN, m_Settings.RAW);
+    }
+
+    private void Start()
+    {
+        DebugDisplay.Instance.Log("START");
+        m_Spawner.SpawnLevel();
     }
 
 
@@ -32,6 +38,7 @@ public class BoardManager : Singleton<BoardManager>
         }
         else if (LockedTilesNumber() == m_CurrentBoard.m_InitialTilesAlive)
         {
+            DebugDisplay.Instance.Log("END LEVEL");
             m_CurrentBoard = new Board(m_Settings.COLUMN, m_Settings.RAW);
             m_Spawner.MoveContainers(true);
         }

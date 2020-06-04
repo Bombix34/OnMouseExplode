@@ -15,5 +15,3 @@ MonoBehaviour:
   m_LevelToTest: {fileID: 11400000, guid: 06f7505121838482199784a16e8d880c, type: 2}
   m_LevelDatabase:
   - {fileID: 11400000, guid: 06f7505121838482199784a16e8d880c, type: 2}
-  - {fileID: 11400000, guid: 0dd45f91a1c49c142b7d347c544a211c, type: 2}
-  - {fileID: 11400000, guid: 2fe5202cd77af7645943c058a22391c2, type: 2}

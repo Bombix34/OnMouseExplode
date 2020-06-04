@@ -10,7 +10,6 @@ public class LevelDataBase : ScriptableObject
     private List<Level> m_LevelDatabase;
     private List<Level> m_LevelAvailable;
 
-
     public Level RandomLevel
     {
         get

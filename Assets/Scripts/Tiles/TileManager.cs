@@ -44,9 +44,13 @@ public class TileManager : MonoBehaviour
     }
 
 
-    public void Init(Vector2 positionInGrid)
+    public void Init(TileType newType, Vector2 positionInGrid)
     {
+        Type = newType;
+        m_Renderer.ResetTile();
+        Face.SwitchFace(FaceType.neutral);
         m_GridPosition = positionInGrid;
+        IsLock = false;
         m_OnMouseOver.AddListener(() => IsMouseOver = true);
         m_OnMouseExit.AddListener(() => IsMouseOver = false);
     }

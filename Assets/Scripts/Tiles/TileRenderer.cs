@@ -20,11 +20,7 @@ public class TileRenderer : MonoBehaviour
     private void Awake()
     {
         m_BaseScale = m_Renderer.transform.localScale;
-    }
-
-    private void Start()
-    {
-        m_BasePosition = this.transform.position;
+        m_BasePosition = m_Renderer.transform.position;
     }
 
     private void Update()
@@ -36,7 +32,7 @@ public class TileRenderer : MonoBehaviour
         }
         if(IsShaking)
         {
-            Position = transform.parent.position + m_BasePosition + (Random.insideUnitSphere*m_Settings.ShakeSpeed);
+            Position =(Random.insideUnitSphere*m_Settings.ShakeSpeed);
         }
         if(IsGrowing)
         {
@@ -50,7 +46,10 @@ public class TileRenderer : MonoBehaviour
         Color = Color.white;
         Scale = m_BaseScale;
         m_GrowingAmount = 0f;
-        Position = transform.parent.position+m_BasePosition;
+        Position = Vector3.zero;
+        IsBouncing = false;
+        IsShaking = false;
+        IsGrowing = false;
     }
 
     public void Squash(bool isSquashX)
@@ -82,7 +81,7 @@ public class TileRenderer : MonoBehaviour
 
     public Vector2 Position
     {
-        set { m_Renderer.transform.position = value; }
+        set { m_Renderer.transform.localPosition= value; }
     }
 
     #endregion
