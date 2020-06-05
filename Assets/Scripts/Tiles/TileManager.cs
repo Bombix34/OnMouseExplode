@@ -112,7 +112,7 @@ public class TileManager : MonoBehaviour
             if (value)
             {
                 m_Renderer.Color = Color.grey;
-                BoardManager.Instance.OnTileLocked();
+                FindObjectOfType<BoardManager>().OnTileLocked();
             }
             else
                 m_Renderer.ResetTile();
@@ -129,7 +129,8 @@ public class TileManager : MonoBehaviour
     public enum TileType
     {
         empty,
-        basic
+        basic,
+        MAX_COUNT
     }
 }
 

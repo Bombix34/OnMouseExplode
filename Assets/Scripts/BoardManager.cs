@@ -1,45 +1,47 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using DG.Tweening;
 
-public class BoardManager : Singleton<BoardManager>
+public class BoardManager : MonoBehaviour
 {
     [SerializeField]
     private BoardSettings m_Settings;
     private TileSpawner m_Spawner;
-    private Board m_CurrentBoard;
+    public Board Board { get; private set; }
 
-    private void Awake()
+    public void Awake()
     {
-        m_Spawner = GetComponent<TileSpawner>();
-        m_Spawner.InitSpawner();
-        m_CurrentBoard = new Board(m_Settings.COLUMN, m_Settings.RAW);
+        DebugDisplay.Instance.Log("BOARD AWAKE");
+        Board = new Board(m_Settings.COLUMN, m_Settings.RAW);
     }
 
-    private void Start()
+    public void Start()
     {
-        DebugDisplay.Instance.Log("START");
-        m_Spawner.SpawnLevel();
+        DebugDisplay.Instance.Log("INIT SPAWNER");
+        m_Spawner = GetComponent<TileSpawner>();
+        m_Spawner.InitSpawner();
+        float chrono = 0f;
+        DOTween.To(() => chrono, x => chrono = x, 1f, 0.2f)
+            .OnComplete(() => m_Spawner.LaunchSpawn());
     }
 
 
     public void OnTileLocked()
     {
-        if (LockedTilesNumber() == m_CurrentBoard.m_InitialTilesAlive/2)
+        if (LockedTilesNumber() == Board.m_InitialTilesAlive/2)
         {
             for (int i = 0; i < m_Settings.COLUMN; ++i)
             {
                 for (int j = 0; j < m_Settings.RAW; ++j)
                 {
-                    if (m_CurrentBoard.GetTile(i, j) != null && !m_CurrentBoard.GetTile(i, j).IsLock && !m_CurrentBoard.GetTile(i, j).IsMouseOver)
-                        m_CurrentBoard.GetTile(i, j).Face.SwitchFace(FaceType.angry);
+                    if (Board.GetTile(i, j) != null && !Board.GetTile(i, j).IsLock && !Board.GetTile(i, j).IsMouseOver)
+                        Board.GetTile(i, j).Face.SwitchFace(FaceType.angry);
                 }
             }
         }
-        else if (LockedTilesNumber() == m_CurrentBoard.m_InitialTilesAlive)
+        else if (LockedTilesNumber() == Board.m_InitialTilesAlive)
         {
-            DebugDisplay.Instance.Log("END LEVEL");
-            m_CurrentBoard = new Board(m_Settings.COLUMN, m_Settings.RAW);
+          //  DebugDisplay.Instance.Log("END LEVEL");
+            Board = new Board(m_Settings.COLUMN, m_Settings.RAW);
             m_Spawner.MoveContainers(true);
         }
     }
@@ -51,7 +53,7 @@ public class BoardManager : Singleton<BoardManager>
         {
             for (int j = 0; j < m_Settings.RAW; ++j)
             {
-                if (m_CurrentBoard.GetTile(i, j) != null &&m_CurrentBoard.GetTile(i, j).IsLock)
+                if (Board.GetTile(i, j) != null &&Board.GetTile(i, j).IsLock)
                     ++count;
             }
         }
@@ -60,14 +62,6 @@ public class BoardManager : Singleton<BoardManager>
 
 
     #region GET/SET
-
-    public Board Board
-    {
-        get
-        {
-            return m_CurrentBoard;
-        }
-    }
 
     #endregion
 }

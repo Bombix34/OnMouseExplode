@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
 
 public class TileSpawner : MonoBehaviour
@@ -22,6 +20,7 @@ public class TileSpawner : MonoBehaviour
     public void InitSpawner()
     {
         m_BoardManager = GetComponent<BoardManager>();
+        DebugDisplay.Instance.Log(m_BoardManager.name);
         m_DataBase.ResetLevelAvailable();
         m_CurrentLevelContainer = m_Level2Container;
     }
@@ -34,22 +33,19 @@ public class TileSpawner : MonoBehaviour
             m_CurrentLevelContainer = m_Level1Container;
     }
 
-    public void SpawnLevel()
+    public void LaunchSpawn()
     {
         DebugDisplay.Instance.Log("SPAWNING");
         if (m_SpawnType == SpawnType.TEST_LEVEL)
-            SpawnLevel(m_DataBase.m_LevelToTest);
+            SpawnLevel(m_DataBase.LevelToTest);
         else if (m_SpawnType == SpawnType.RANDOM)
             SpawnLevel(m_DataBase.RandomLevel);
     }
 
-    public void SpawnLevel(Level newLevel)
+    private void SpawnLevel(LevelMap newLevel)
     {
-        DebugDisplay.Instance.Log("TRY SPAWN 1");
         ResetContainer();
         ChangeCurrentLevelContainer();
-        DebugDisplay.Instance.Log("TRY SPAWN 2");
-        DebugDisplay.Instance.Log(Resources.Load<GameObject>("Tile_Prefab").name);
         for (int i = 0; i < m_Settings.COLUMN; ++i)
         {
             for(int j = 0; j < m_Settings.RAW; ++j)
@@ -60,7 +56,6 @@ public class TileSpawner : MonoBehaviour
                     GameObject tileSpawned = m_TileGetter.GetTileAvailable();
                     tileSpawned.SetActive(true);
                     tileSpawned.transform.parent = m_CurrentLevelContainer;
-                    DebugDisplay.Instance.Log(tileSpawned.name);
                     tileSpawned.transform.localPosition =new Vector2(i * m_Settings.COLUMN_DISPLACEMENT, j * m_Settings.RAW_DISPLACEMENT);
                     TileManager tile = tileSpawned.GetComponent<TileManager>();
                     tile.Init(currentTyleType, new Vector2(i, j));
@@ -83,7 +78,7 @@ public class TileSpawner : MonoBehaviour
                 m_Level2Container.transform.position = new Vector2(10f, 0f);
             else
                 m_Level1Container.transform.position = new Vector2(10f, 0f);
-            m_CurrentLevelContainer.DOMoveX(10f, 0.5f).OnComplete(() => SpawnLevel());
+            m_CurrentLevelContainer.DOMoveX(10f, 0.5f).OnComplete(() =>LaunchSpawn());
         }
         else
         {

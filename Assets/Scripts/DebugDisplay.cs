@@ -13,7 +13,7 @@ public class DebugDisplay : Singleton<DebugDisplay>
 
     private void Awake()
     {
-        IsShowingDebug = true;
+        IsShowingDebug = false;
     }
 
     void Update()
@@ -24,18 +24,17 @@ public class DebugDisplay : Singleton<DebugDisplay>
     public void Log(string text)
     {
         debugLine++;
-        if (debugLine % 3 == 0)
-            m_StringToShow += "- " + text + "\r\n";
+        if (debugLine % 15 == 0)
+        {
+            m_StringToShow = "-" + text;
+        }
+        else if (debugLine % 3 == 0)
+            m_StringToShow += "-" + text + "\r\n";
         else
-            m_StringToShow += "- " + text;
+            m_StringToShow += "-" + text;
     }
 
-    public string DebugText
-    {
-        set { m_StringToShow = value; }
-    }
-
-    void OnGUI()
+    private void OnGUI()
     {
         if (!IsShowingDebug)
         {
@@ -46,7 +45,7 @@ public class DebugDisplay : Singleton<DebugDisplay>
         GUIStyle style = new GUIStyle();
 
         GUIStyle objectsInScene = new GUIStyle();
-        Rect rectObj = new Rect(0, ( 6*h) / 7, w, h * 2 / 100);
+        Rect rectObj = new Rect(0, ( 8*h) / 9, w, h * 2 / 100);
         objectsInScene.alignment = TextAnchor.UpperLeft;
         objectsInScene.fontSize = h * 2 / 100;
         objectsInScene.normal.textColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -61,6 +60,5 @@ public class DebugDisplay : Singleton<DebugDisplay>
         float fps = 1.0f / deltaTime;
         string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
         GUI.Label(rect, text, style);
-
     }
 }

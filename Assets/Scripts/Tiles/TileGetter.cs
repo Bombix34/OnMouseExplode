@@ -8,7 +8,7 @@ public class TileGetter : MonoBehaviour
 
     public GameObject GetTileAvailable()
     {
-        foreach(TileManager tile in tiles)
+        foreach (TileManager tile in tiles)
         {
             if (tile.transform.parent == this.transform)
                 return tile.gameObject;

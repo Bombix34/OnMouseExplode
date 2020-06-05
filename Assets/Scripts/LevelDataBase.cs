@@ -1,23 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using JsonParse;
 
 [CreateAssetMenu(fileName = "DATABASE", menuName = "Explofun/new level database")]
 public class LevelDataBase : ScriptableObject
 {
-    public Level m_LevelToTest;
     [SerializeField]
-    private List<Level> m_LevelDatabase;
-    private List<Level> m_LevelAvailable;
+    private TextAsset TestFileLevel;
+    private LevelMap m_LevelToTest;
+    [SerializeField]
+    private List<TextAsset> m_LevelDatabase;
+    private List<LevelMap> m_LevelAvailable;
 
-    public Level RandomLevel
+    public LevelMap RandomLevel
     {
         get
         {
             if (m_LevelAvailable == null || m_LevelAvailable.Count == 0)
                 ResetLevelAvailable();
-
-            Level toReturn = m_LevelAvailable[Random.Range(0, m_LevelAvailable.Count)];
+            LevelMap toReturn = m_LevelAvailable[Random.Range(0, m_LevelAvailable.Count)];
             m_LevelAvailable.Remove(toReturn);
             return toReturn;
         }
@@ -25,10 +26,24 @@ public class LevelDataBase : ScriptableObject
 
     public void ResetLevelAvailable()
     {
+        if (m_LevelAvailable == null)
+            m_LevelAvailable = new List<LevelMap>();
         m_LevelAvailable.Clear();
-        foreach(Level level in m_LevelDatabase)
+        foreach(TextAsset level in m_LevelDatabase)
         {
-            m_LevelAvailable.Add(level);
+            m_LevelAvailable.Add(JsonParse<LevelMap>.FromJson(level));
+        }
+    }
+
+    public LevelMap LevelToTest
+    {
+        get
+        {
+            if(m_LevelToTest==null)
+            {
+                m_LevelToTest = JsonParse<LevelMap>.FromJson(TestFileLevel);
+            }
+            return m_LevelToTest;
         }
     }
 }

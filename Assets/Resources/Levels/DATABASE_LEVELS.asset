@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 880f5cd9c4182304a8a373e379b2d7d7, type: 3}
   m_Name: DATABASE_LEVELS
   m_EditorClassIdentifier: 
-  m_LevelToTest: {fileID: 11400000, guid: 06f7505121838482199784a16e8d880c, type: 2}
+  TestFileLevel: {fileID: 4900000, guid: 3038a68bf7b6e4b509fd29e6e8fa1153, type: 3}
   m_LevelDatabase:
-  - {fileID: 11400000, guid: 06f7505121838482199784a16e8d880c, type: 2}
+  - {fileID: 4900000, guid: bb9ec97d1d1ad4af397ad9300d86fbba, type: 3}
+  - {fileID: 4900000, guid: 3038a68bf7b6e4b509fd29e6e8fa1153, type: 3}
+  - {fileID: 4900000, guid: 0ab69bd02d0f1492c93e32b8e33f4720, type: 3}
+  - {fileID: 4900000, guid: 7c1fdd65c494541f2ba00ac4d66f049e, type: 3}
