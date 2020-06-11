@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class FaceManager : MonoBehaviour
 {
-    private FaceType m_CurrentFace = FaceType.neutral;
+    private FaceType m_CurrentFace = FaceType.NEUTRAL;
     [SerializeField]
     private SpriteRenderer m_EyeLeftSR, m_EyeRightSR, m_MouthSR, m_SourcilLeft, m_SourcilRight;
     [SerializeField]
     private Transform m_EyeLeftContainer, m_EyeRightContainer;
-    [SerializeField]
     private List<FaceData> m_FaceDatas;
 
     private bool m_CanMoveEyes = false;
 
-    private void Start()
+    public void Init(TileDatas datas)
     {
-        SwitchFace(FaceType.neutral);
+        m_FaceDatas = datas.m_FaceDatas;
+        SwitchFace(FaceType.NEUTRAL);
     }
 
     private void Update()
@@ -55,13 +55,21 @@ public class FaceManager : MonoBehaviour
         m_SourcilRight.gameObject.SetActive(concernedDatas.hasSourcil);
     }
 
-    public void ScareOnMouseOver()
+    public void SwitchFace(int newFace)
     {
-        if (m_CurrentFace == FaceType.dead)
-            return;
-        SwitchFace(FaceType.scared);
+        FaceData concernedDatas = m_FaceDatas[0];
+        foreach (FaceData item in m_FaceDatas)
+            if ((int)item.faceType == newFace)
+                concernedDatas = item;
+        m_CurrentFace = concernedDatas.faceType;
+        m_EyeLeftSR.sprite = concernedDatas.eyeLeftSprite;
+        m_EyeRightSR.sprite = concernedDatas.eyeRightSprite;
+        m_MouthSR.sprite = concernedDatas.mouthSprite;
+        m_EyeLeftSR.flipX = concernedDatas.eyeLeftNeedFlip;
+        m_CanMoveEyes = concernedDatas.canMoveEye;
+        m_SourcilLeft.gameObject.SetActive(concernedDatas.hasSourcil);
+        m_SourcilRight.gameObject.SetActive(concernedDatas.hasSourcil);
     }
-
 }
 
 [System.Serializable]
@@ -76,10 +84,12 @@ public struct FaceData
     public bool hasSourcil;
 }
 
+[System.Serializable]
 public enum FaceType
 {
-    neutral,
-    scared,
-    dead,
-    angry
+    NEUTRAL =0,
+    SCARED  =1,
+    LOCK    =2,
+    ANGRY   =3
 }
+

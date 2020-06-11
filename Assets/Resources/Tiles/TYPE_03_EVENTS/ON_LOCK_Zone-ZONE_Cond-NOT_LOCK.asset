@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 768d6a3b77ed445b1b062ea0306816d7, type: 3}
+  m_Name: ON_LOCK_Zone-ZONE_Cond-NOT_LOCK
+  m_EditorClassIdentifier: 
+  m_EventType: 3
+  m_TriggerCondition: 0
+  m_ZoneTriggerEffect: 1
+  m_EventMessages:
+  - m_MessageType: 8
+    m_BoolParam: 0
+    m_FloatParam: 0
+    m_TileTypeParam: 0
+    m_FaceTypeParam: 0

@@ -30,13 +30,12 @@ public class LevelEditor : Editor
             {
 
                 GUI.backgroundColor = GetCorrespondingColor(m.levelTile[i].entries[j]);
-                if (GUILayout.Button(m.levelTile[i].entries[j].ToString(), GUILayout.Width(50), GUILayout.Height(20)))
+                if (GUILayout.Button(((int)m.levelTile[i].entries[j]).ToString(), GUILayout.Width(50), GUILayout.Height(20)))
                 {
                     m.levelTile[i].entries[j]++;
                     if (m.levelTile[i].entries[j] >= TileManager.TileType.MAX_COUNT)
                         m.levelTile[i].entries[j] = 0;
                 }
-               // m.levelTile[i].entries[j] = (TileManager.TileType)EditorGUILayout.EnumPopup(m.levelTile[i].entries[j]);
             }
             GUILayout.EndHorizontal();
         }
@@ -48,7 +47,7 @@ public class LevelEditor : Editor
             {
                 for (int j = 0; j < m.levelTile[i].entries.Length; j++)
                 {
-                    m.levelTile[i].entries[j] = TileManager.TileType.empty;
+                    m.levelTile[i].entries[j] = TileManager.TileType.EMPTY;
                 }
             }
         }
@@ -124,10 +123,16 @@ public class LevelEditor : Editor
 
     private Color GetCorrespondingColor(TileManager.TileType typeConcerned)
     {
-        if (typeConcerned == TileManager.TileType.empty)
+        if (typeConcerned == TileManager.TileType.EMPTY)
             return new Color(0.5f, 0.5f, 0.5f, 0.5f);
-        else if (typeConcerned == TileManager.TileType.basic)
+        else if (typeConcerned == TileManager.TileType.TYPE_01)
             return new Color(0.6f, 0.6f, 0.9f, 1f);
+        else if (typeConcerned == TileManager.TileType.TYPE_02)
+            return new Color(0.6f, 0.9f, 0.6f, 1f);
+        else if (typeConcerned == TileManager.TileType.TYPE_03)
+            return new Color(0.9f, 0.9f, 0.6f, 1f);
+        else if (typeConcerned == TileManager.TileType.TYPE_04)
+            return new Color(0.6f, 0.9f, 0.9f, 1f);
         else
             return Color.black;
     }

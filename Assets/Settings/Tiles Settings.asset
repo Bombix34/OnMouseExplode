@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BounceSpeed: 0.3
   ShakeSpeed: 0.1
-  GrowingSpeed: 1.2
+  GrowingSpeed: 2
