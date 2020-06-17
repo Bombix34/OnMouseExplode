@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DebugDisplay : Singleton<DebugDisplay>
 {
@@ -37,6 +38,9 @@ public class DebugDisplay : Singleton<DebugDisplay>
 
         if (GUI.Button(new Rect(w / 25, (h) / 55, 2 * w / 20, 2 * w / 20), "DEBUG"))
             m_IsShowingDebug = !m_IsShowingDebug;
+
+        if (GUI.Button(new Rect(22 * w / 25, (h) / 55, 2 * w / 20, 2 * w / 20), "RESTART"))
+            SceneManager.LoadScene(0);
 
         if (!m_IsShowingDebug)
             return;

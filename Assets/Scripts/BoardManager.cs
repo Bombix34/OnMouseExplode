@@ -29,11 +29,7 @@ public class BoardManager : Singleton<BoardManager>
     {
         if (!m_IsActive)
             return;
-        Board.CurrentTilesLockedNumber++;
-        int lockedNumber = Board.CurrentTilesLockedNumber;
-        print(lockedNumber);
-        print(Board.m_InitialTilesAlive);
-        if (lockedNumber == Board.m_InitialTilesAlive/2)
+        if (LockedTilesNumber == Board.m_InitialTilesAlive/2)
         {
             for (int i = 0; i < m_Settings.COLUMN; ++i)
             {
@@ -48,7 +44,7 @@ public class BoardManager : Singleton<BoardManager>
                 }
             }
         }
-        else if (lockedNumber >= Board.m_InitialTilesAlive)
+        else if (LockedTilesNumber >= Board.m_InitialTilesAlive)
         {
             m_IsActive = false;
             DebugDisplay.Instance.Log("END LEVEL");
@@ -66,15 +62,18 @@ public class BoardManager : Singleton<BoardManager>
         m_IsActive = true;
     }
 
-    private int LockedTilesNumber()
+    private int LockedTilesNumber
     {
-        int count = 0;
-        foreach(TileManager tile in Board.Tiles)
-        { 
-            if (tile.Type!=TileManager.TileType.EMPTY && tile.IsLock)
-                ++count;
+        get
+        {
+            int count = 0;
+            foreach(TileManager tile in Board.Tiles)
+            { 
+                if (tile.Type!=TileManager.TileType.EMPTY && tile.IsLock)
+                    ++count;
+            }
+            return count;
         }
-        return count;
     }
 
     public void ActivateBoard(bool isActive)
@@ -90,7 +89,6 @@ public class BoardManager : Singleton<BoardManager>
             }
         }
     }
-
 
     #region GET/SET
 
@@ -133,7 +131,6 @@ public class Board
     private TileManager[,] m_Tiles;
     private TileManager.TileType[,] m_Types;
     public int m_InitialTilesAlive = 0;
-    private int m_CurrentLockNumber = 0;
 
     public Board(int column, int raw)
     {
@@ -142,7 +139,6 @@ public class Board
         m_Tiles = new TileManager[this.column, this.raw];
         m_Types = new TileManager.TileType[this.column, this.raw];
         m_InitialTilesAlive = 0;
-        m_CurrentLockNumber = 0;
     }
 
     public void InitTile(TileManager newTile, int column, int raw)
@@ -177,7 +173,5 @@ public class Board
     public int Column { get => column;  }
 
     public int Raw { get => raw;  }
-
-    public int CurrentTilesLockedNumber { get => m_CurrentLockNumber; set { m_CurrentLockNumber = value; } } 
 
 }

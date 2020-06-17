@@ -23,7 +23,6 @@ public class TileTrigger : MonoBehaviour
             switch (touch.phase)
             {
                 case TouchPhase.Ended:
-                    // Report that the touch has ended when it ends
                     m_Manager.OnMouseExit.Invoke();
                     break;
             }
@@ -32,11 +31,19 @@ public class TileTrigger : MonoBehaviour
 
     private void OnMouseOver()
     {
+        #if UNITY_EDITOR
         if(m_Manager.IsActive && !m_Manager.IsMouseOver)
         {
             m_Manager.IsMouseOver = true;
             m_Manager.OnMouseOver.Invoke();
         }
+        #else
+        if(m_Manager.IsActive && !m_Manager.IsMouseOver && Input.touchCount > 0)
+        {
+            m_Manager.IsMouseOver = true;
+            m_Manager.OnMouseOver.Invoke();
+        }
+        #endif
     }
 
     private void OnMouseExit()

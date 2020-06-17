@@ -4,7 +4,6 @@ using DG.Tweening;
 
 public class TileSpawner : MonoBehaviour
 {
-    [SerializeField]
     private SpawnType m_SpawnType;
     [SerializeField]
     private BoardSettings m_Settings;
@@ -26,7 +25,8 @@ public class TileSpawner : MonoBehaviour
         DebugDisplay.Instance.Log("INIT SPAWNER");
         m_BoardManager = GetComponent<BoardManager>();
         DebugDisplay.Instance.Log(m_BoardManager.name);
-        m_DataBase.ResetLevelAvailable();
+        m_SpawnType = m_DataBase.CurrentSpawnType;
+        m_DataBase.InitLevelAvailable();
         m_CurrentLevelContainer = m_Level2Container;
     }
 
@@ -53,6 +53,8 @@ public class TileSpawner : MonoBehaviour
             SpawnLevel(m_DataBase.LevelToTest);
         else if (m_SpawnType == SpawnType.RANDOM)
             SpawnLevel(m_DataBase.RandomLevel);
+        else if(m_SpawnType == SpawnType.CRESCENDO)
+            SpawnLevel(m_DataBase.RandomCrescendoLevel);
     }
 
     private void SpawnLevel(LevelMap newLevel)
@@ -137,5 +139,6 @@ public class TileSpawner : MonoBehaviour
 public enum SpawnType
 {
     TEST_LEVEL,
-    RANDOM
+    RANDOM,
+    CRESCENDO
 }
